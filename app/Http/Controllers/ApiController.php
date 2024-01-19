@@ -475,11 +475,16 @@ public function shopcoupon(Request $request){
     $sid = $request->sid;
     $userId = $request->uid;
     $currentTime = Carbon::now();
-
-    // Calculate the timestamp 72 hours ago
+    echo($sid);
+    echo($userId);
+   // Assuming $currentTime is an instance of Carbon
+    $currentTime = Carbon::now();
     $time72HoursAgo = $currentTime->subHours(72)->timestamp;
 
-    $d = DB::select("
+
+    $d = DB::select("SELECT * FROM `dat_coupon` WHERE `shop_id` = ? AND `coupon_used_time` < ?", [$sid, $time72HoursAgo]);
+    return response()->json($d);
+   /* $d = DB::select("
         SELECT mc.*
         FROM `mst_coupon` mc
         LEFT JOIN `dat_coupon` dc ON mc.`coupon_id` = dc.`coupon_id`  
@@ -497,10 +502,10 @@ public function shopcoupon(Request $request){
     // ", [
     //     'time72HoursAgo' <= $time72HoursAgo,
    // ]
-);
+);*/
 
 
-    return response()->json($d);
+   // return response()->json($d);
 }
 
  public function shopmstcategory(Request $request){
