@@ -475,14 +475,14 @@ public function shopcoupon(Request $request){
     $sid = $request->sid;
     $userId = $request->uid;
     $currentTime = Carbon::now();
-    echo($sid);
-    echo($userId);
+    //echo($sid);
+    //echo($userId);
    // Assuming $currentTime is an instance of Carbon
     $currentTime = Carbon::now();
     $time72HoursAgo = $currentTime->subHours(72)->timestamp;
-
-
-    $d = DB::select("SELECT * FROM `dat_coupon` WHERE `shop_id` = ? AND `coupon_used_time` < ?", [$sid, $time72HoursAgo]);
+    
+   // create the sql query for filtering coupon
+    $d = DB::select("SELECT * FROM `dat_coupon` WHERE `user_id` = ? AND `coupon_used_time` < ?", [$sid, $time72HoursAgo]);
     return response()->json($d);
    /* $d = DB::select("
         SELECT mc.*
@@ -548,6 +548,24 @@ public function shopcoupon(Request $request){
     $d = DB::select("SELECT * FROM `mst_holiday` ");
     return response()->json($d);
  }
+
+ public function viewShopCoupon(Request $request)
+ 
+ {
+    $coupon_id = $request->coupon_id;
+    $userId = $request->uid;
+    $currentTime = Carbon::now();
+   // Assuming $currentTime is an instance of Carbon
+    $currentTime = Carbon::now();
+    $currentTime= $currentTime->timestamp;
+    
+   // create the sql query for filtering coupon
+    $d = DB::select("SELECT * FROM `mst_coupon` WHERE `coupon_id` = ? AND `coupon_end_date` < ?", [$coupon_id, $currentTime]);
+    return response()->json($d);
+   
+ }
+    
+ 
 
  
 
