@@ -554,13 +554,12 @@ public function shopcoupon(Request $request){
  {
     $coupon_id = $request->coupon_id;
     $userId = $request->uid;
-    $currentTime = Carbon::now();
    // Assuming $currentTime is an instance of Carbon
-    $currentTime = Carbon::now();
-    $currentTime= $currentTime->timestamp;
+    $date = now()->format('Y-m-d');
+    echo $date;
     
-   // create the sql query for filtering coupon
-    $d = DB::select("SELECT * FROM `mst_coupon` WHERE `coupon_id` = ? AND `coupon_end_date` < ?", [$coupon_id, $currentTime]);
+   // create the sql query for filtering coupons
+    $d = DB::select("SELECT * FROM `mst_coupon` WHERE `coupon_id` = ? AND `coupon_end_date` > ?", [$coupon_id, $date]);
     return response()->json($d);
    
  }
