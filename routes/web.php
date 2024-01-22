@@ -93,6 +93,7 @@ Route::get('bookingdate/{pid}',[ApiController::class, 'bookingdate']);
 //Coupon 
 Route::get('shopcoupon/{sid}/{uid}',[ApiController::class, 'shopcoupon']);
 
+
 //web shop plan cate
 Route::get('shopmstcategory/{sid}/{seosonid}',[ApiController::class, 'shopmstcategory']);
 Route::get('shopmstcategoryview/{sid}/{cid}',[ApiController::class, 'shopmstcategoryview']);
@@ -106,3 +107,6 @@ Route::get('holiday',[apicontroller::class, 'holiday']);
 
 //stamp card
 Route::get('addstamp/{sid}/{uid}/{scount}/{timestamp}',[apicontroller::class, 'addstamp']);
+
+// view shop coupons without expire things
+Route::get('viewshopcoupon/{coupon_id}', [ApiController::class, 'viewShopCoupon']);
