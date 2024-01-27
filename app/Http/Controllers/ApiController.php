@@ -566,15 +566,27 @@ public function shopcoupon(Request $request){
  }
 
  public function viewStampCoupon(Request $request){
+    $user_id=$request->uid;
     $stamp_count=$request->stamp_count;
     //$stamp_count=$request->stamp_count;
 
 
    $d=DB::select(" SELECT * FROM `dat_user_stamp` WHERE `stamp_count` = ?",[$stamp_count]);
+   $d1=DB::select("SELECT * FROM `dat_coupon` WHERE `user_id` = ?",[$user_id]);
    foreach($d as $row){
       $stamp_count=$row->stamp_count;
       if($stamp_count<12){
-            return response()->json($d);
+          $z=$stamp_count/6;
+          if($z==1){
+               foreach($d1 as $row1){
+                 $user_id=$row1->user_id;
+                 $shop_id=$row1->shop_id;
+                 if($user_id==$shop_id){
+                    return  response()->json($d1);
+                 }else{
+                 }
+            }
+          }
       }
 
       }
