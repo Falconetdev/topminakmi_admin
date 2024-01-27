@@ -545,6 +545,7 @@ public function shopcoupon(Request $request){
  }
 
  public function addstamp (){
+    
     $d = DB::select("SELECT * FROM `mst_holiday` ");
     return response()->json($d);
  }
@@ -563,10 +564,30 @@ public function shopcoupon(Request $request){
     return response()->json($d);
    
  }
+
+ public function viewStampCoupon(Request $request){
+    $stamp_count=$request->stamp_count;
+    //$stamp_count=$request->stamp_count;
+
+
+   $d=DB::select(" SELECT * FROM `dat_user_stamp` WHERE `stamp_count` = ?",[$stamp_count]);
+   foreach($d as $row){
+      $stamp_count=$row->stamp_count;
+      if($stamp_count<12){
+            return response()->json($d);
+      }
+
+      }
+   }
+   
+  
+
+
+ }
     
  
 
  
 
 
-}
+
