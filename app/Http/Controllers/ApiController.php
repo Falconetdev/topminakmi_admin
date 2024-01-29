@@ -566,40 +566,47 @@ public function shopcoupon(Request $request){
  }
 
  public function viewStampCoupon(Request $request){
-    $user_id=$request->uid;
-    $stamp_count=$request->stamp_count;
-    //$stamp_count=$request->stamp_count;
+    $user_id = $request->uid;
+    $stamp_count = $request->stamp_count;
 
+    $userStampData = DB::select("SELECT * FROM `dat_user_stamp` WHERE `stamp_count` = ?", [$stamp_count]);
+    $couponData = DB::select("SELECT * FROM `dat_coupon` WHERE `user_id` = ?", [$user_id]);
 
-   $d=DB::select(" SELECT * FROM `dat_user_stamp` WHERE `stamp_count` = ?",[$stamp_count]);
-   $d1=DB::select("SELECT * FROM `dat_coupon` WHERE `user_id` = ?",[$user_id]);
-   foreach($d as $row){
-      $stamp_count=$row->stamp_count;
-      if($stamp_count<12){
-          $z=$stamp_count/6;
-          if($z==1){
-               foreach($d1 as $row1){
-                 $user_id=$row1->user_id;
-                 $shop_id=$row1->shop_id;
-                 if($user_id==$shop_id){
-                    return  response()->json($d1);
-                 }else{
-                 }
+    foreach ($userStampData as $userStamp) {
+        $stampCount = $userStamp->stamp_count;
+
+        if ($stampCount < 12) {
+            $z = $stampCount / 6;
+
+            if ($z == 1) {
+                foreach ($couponData as $coupon) {
+                    $userId = $coupon->user_id;
+                    $shopId = $coupon->shop_id;
+
+                    if ($userId == $shopId) {
+                        return response()->json($couponData);
+                    }
+                }
             }
-          }
-      }
+        } else {
+            $z = $stampCount / 6;
+            $y = $stampCount / 12;
+            $t = $z - $y;
 
-      }
-   }
-   
-  
+            if ($t > 0) {
+                foreach ($couponData as $coupon) {
+                    $userId = $coupon->user_id;
+                    $shopId = $coupon->shop_id;
 
+                    if ($userId == $shopId) {
+                        return response()->json($couponData);
+                    }
+                }
+            }
+        } 
+           
+    }
 
- }
-    
- 
-
- 
-
-
-
+    return response()->json([]);
+}
+}
