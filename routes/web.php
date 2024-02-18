@@ -110,9 +110,10 @@ Route::get('addstamp/{sid}/{uid}/{scount}/{timestamp}',[apicontroller::class, 'a
 
 // view shop coupons without expire things
 Route::get('viewshopcoupon/{coupon_id}', [ApiController::class, 'viewShopCoupon']);
-// view stamp 6 coupons 
-Route::get('viewstampcoupon/{stamp_count}/{uid}', [ApiController::class, 'viewStampCoupon']);
-// view stamp 12 coupons
-Route::get('viewstampcoupon12/{stamp_count}/{uid}', [ApiController::class, 'findTwelveStampCoupon']);
+// // view stamp 6 coupons 
+// Route::get('viewstampcoupon/{stamp_count}/{uid}', [ApiController::class, 'viewStampCoupon']);
+// // view stamp 12 coupons
+// Route::get('viewstampcoupon12/{stamp_count}/{uid}', [ApiController::class, 'findTwelveStampCoupon']);
 
+Route::get('viewstampcoupon/{stamp_count}/{uid}', [ApiController::class, 'viewStampCoupon']);
 

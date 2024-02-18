@@ -565,122 +565,158 @@ public function shopcoupon(Request $request){
    
  }
 
- public function viewStampCoupon(Request $request){
-    $user_id = $request->uid;
-    $stamp_count = $request->stamp_count;
+//  public function viewStampCoupon(Request $request){
+//     $user_id = $request->uid;
+//     $stamp_count = $request->stamp_count;
 
+//     // Fetch records from dat_user_stamp where stamp_count is equal to $stamp_count
+//     $datUserStamp = DB::select("SELECT * FROM `dat_user_stamp` WHERE `stamp_count` = ?", [$stamp_count]);
+
+//     // Fetch records from dat_coupon where user_id is equal to $user_id
+//     $datCoupon = DB::select("SELECT * FROM `dat_coupon` WHERE `user_id` = ?", [$user_id]);
+
+//     foreach ($datUserStamp as $row) {
+//         $stamp_count = $row->stamp_count;
+
+//         if ($stamp_count < 12) {
+//             $z = $stamp_count / 6;
+//             $q = $stamp_count % 6; 
+
+//             if ($z == 1) {
+
+//                 $responseArray = [
+//                     'datCoupon' => $datCoupon,
+//                     'number of coupens' => $z,
+//                     'updated stamp count' => $q,
+//                 ];
+
+//                 return response()->json($responseArray);
+
+//                 foreach ($datCoupon as $row1) {
+//                     $couponUserId = $row1->user_id;
+//                     $shop_id = $row1->shop_id;
+
+
+//                     if ($couponUserId == $shop_id) {
+//                         return response()->json($datCoupon);
+//                     } else {
+//                         // Do something else if conditions are not met
+//                     }
+//                 }
+//             }
+//             } else {
+//                 $y = $stamp_count / 12;
+//                 $a = $stamp_count / 6;
+//                 $q = $stamp_count % 6; 
+//                 $t = $a - $y;
+
+//                 if ($t > 0) {
+                    
+//                     $responseArray = [
+//                         'datCoupon' => $datCoupon,
+//                         'number of coupens' => $a,
+//                         'updated stamp count' => $q,
+//                     ];
+
+//                     return response()->json($responseArray);
+//                     // Similar validation logic as above
+//                     foreach ($datCoupon as $row1) {
+//                         $couponUserId = $row1->user_id;
+//                         $shop_id = $row1->shop_id;
+
+//                         if ($couponUserId == $shop_id) {
+//                             return response()->json($datCoupon);
+//                         } else {
+//                             // Do something else if conditions are not met
+//                         }
+//                     }
+//                 }
+//             }
+//     }
+
+//     // If none of the conditions are met, you may return a default response
+//     return response()->json(['message' => 'No valid 6-stamp coupon found']);
+// }
+
+// public function findTwelveStampCoupon(Request $request) {
+//     $user_id = $request->uid;
+//     $stamp_count = $request->stamp_count;
+
+//     // Fetch records from dat_user_stamp where stamp_count is divisible by 12
+//     $datUserStamp = DB::select("SELECT * FROM `dat_user_stamp` WHERE `stamp_count` =  ?", [$stamp_count]);
+
+//     // Fetch records from dat_coupon where user_id is equal to $user_id
+//     $datCoupon = DB::select("SELECT * FROM `dat_coupon` WHERE `user_id` = ?", [$user_id]);
+
+//     foreach ($datUserStamp as $row) {
+//         $stamp_count = $row->stamp_count;
+
+//         // Calculate the number of coupon_stamp_position parts as stamp_count divided by 12
+//         $totalCouponParts = $stamp_count / 12;
+//         $q = $stamp_count % 12; 
+
+//         // Create an array with the required values
+//         $responseArray = [
+//             'datCoupon' => $datCoupon,
+//             'totalCouponParts' => $totalCouponParts,
+//             'updated stamp count' => $q,
+//         ];
+
+//         // Return the JSON response with the array
+//         return response()->json($responseArray);
+
+//         foreach ($datCoupon as $row1) {
+//             $couponUserId = $row1->user_id;
+//             $shop_id = $row1->shop_id;
+
+//             if ($couponUserId == $shop_id) {
+//                 return response()->json($datCoupon);
+//             } else {
+//                 // Do something else if conditions are not met
+//             }
+//         }
+//     }
+
+//     // If none of the conditions are met, you may return a default response
+//     return response()->json(['message' => 'No valid 12-stamp coupon found']);
+// }
+  
+
+public function viewStampCoupon(Request $request, $stamp_count, $user_id){
     // Fetch records from dat_user_stamp where stamp_count is equal to $stamp_count
     $datUserStamp = DB::select("SELECT * FROM `dat_user_stamp` WHERE `stamp_count` = ?", [$stamp_count]);
 
     // Fetch records from dat_coupon where user_id is equal to $user_id
     $datCoupon = DB::select("SELECT * FROM `dat_coupon` WHERE `user_id` = ?", [$user_id]);
 
-    foreach ($datUserStamp as $row) {
-        $stamp_count = $row->stamp_count;
-
-        if ($stamp_count < 12) {
-            $z = $stamp_count / 6;
-            $q = $stamp_count % 6; 
-
-            if ($z == 1) {
-
-                $responseArray = [
-                    'datCoupon' => $datCoupon,
-                    'number of coupens' => $z,
-                    'updated stamp count' => $q,
-                ];
-
-                return response()->json($responseArray);
-
-                foreach ($datCoupon as $row1) {
-                    $couponUserId = $row1->user_id;
-                    $shop_id = $row1->shop_id;
-
-
-                    if ($couponUserId == $shop_id) {
-                        return response()->json($datCoupon);
-                    } else {
-                        // Do something else if conditions are not met
-                    }
-                }
-            }
-            } else {
-                $y = $stamp_count / 12;
-                $a = $stamp_count / 6;
-                $q = $stamp_count % 6; 
-                $t = $a - $y;
-
-                if ($t > 0) {
-                    
-                    $responseArray = [
-                        'datCoupon' => $datCoupon,
-                        'number of coupens' => $a,
-                        'updated stamp count' => $q,
-                    ];
-
-                    return response()->json($responseArray);
-                    // Similar validation logic as above
-                    foreach ($datCoupon as $row1) {
-                        $couponUserId = $row1->user_id;
-                        $shop_id = $row1->shop_id;
-
-                        if ($couponUserId == $shop_id) {
-                            return response()->json($datCoupon);
-                        } else {
-                            // Do something else if conditions are not met
-                        }
-                    }
-                }
-            }
-    }
-
-    // If none of the conditions are met, you may return a default response
-    return response()->json(['message' => 'No valid 6-stamp coupon found']);
-}
-
-public function findTwelveStampCoupon(Request $request) {
-    $user_id = $request->uid;
-    $stamp_count = $request->stamp_count;
-
-    // Fetch records from dat_user_stamp where stamp_count is divisible by 12
-    $datUserStamp = DB::select("SELECT * FROM `dat_user_stamp` WHERE `stamp_count` =  ?", [$stamp_count]);
-
-    // Fetch records from dat_coupon where user_id is equal to $user_id
-    $datCoupon = DB::select("SELECT * FROM `dat_coupon` WHERE `user_id` = ?", [$user_id]);
-
-    foreach ($datUserStamp as $row) {
-        $stamp_count = $row->stamp_count;
-
-        // Calculate the number of coupon_stamp_position parts as stamp_count divided by 12
+    if ($stamp_count % 12 == 0) {
+        // Handle 12-stamp coupons
         $totalCouponParts = $stamp_count / 12;
         $q = $stamp_count % 12; 
 
-        // Create an array with the required values
         $responseArray = [
             'datCoupon' => $datCoupon,
             'totalCouponParts' => $totalCouponParts,
             'updated stamp count' => $q,
         ];
+    } elseif ($stamp_count % 6 == 0) {
+        // Handle 6-stamp coupons
+        $z = $stamp_count / 6;
+        $q = $stamp_count % 6; 
 
-        // Return the JSON response with the array
-        return response()->json($responseArray);
-
-        foreach ($datCoupon as $row1) {
-            $couponUserId = $row1->user_id;
-            $shop_id = $row1->shop_id;
-
-            if ($couponUserId == $shop_id) {
-                return response()->json($datCoupon);
-            } else {
-                // Do something else if conditions are not met
-            }
-        }
+        $responseArray = [
+            'datCoupon' => $datCoupon,
+            'number of coupens' => $z,
+            'updated stamp count' => $q,
+        ];
+    } else {
+        // Neither 6-stamp nor 12-stamp coupons found
+        return response()->json(['message' => 'No valid 6 or 12-stamp coupon found']);
     }
 
-    // If none of the conditions are met, you may return a default response
-    return response()->json(['message' => 'No valid 12-stamp coupon found']);
+    // Return the JSON response with the array
+    return response()->json($responseArray);
 }
-  
 
 
  }
